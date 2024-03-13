@@ -2,6 +2,7 @@
 import React from "react";
 
 import TextArea from "../../component/(PRINTILAN)/textArea/page";
+import Buttonn from "../(PRINTILAN)/button/page";
 
 const CreateComponent = () => {
   return (
@@ -20,6 +21,7 @@ const CreateComponent = () => {
             label="Short Description"
             placeholder="the box is mad from wood"
           />
+          <Buttonn text="Submit" href="create" />
         </form>
       </div>
     </div>

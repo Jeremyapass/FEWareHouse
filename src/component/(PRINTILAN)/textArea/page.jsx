@@ -5,7 +5,7 @@ const TextArea = (props) => {
   return (
     <div>
       <Textarea
-        size="lg"
+        size="md"
         className="w-[500px] text-birublend"
         label={`${props.label}`}
         placeholder={`${props.placeholder}`}
