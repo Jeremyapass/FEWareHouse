@@ -1,0 +1,6 @@
+Setiap sudah create-next-app Pastikan cek file" berikut : 
+
+1. package.json = untuk mastiin depedencies sudah masuk setelah npm install
+2. tailwind.config.js = 
+    + pastikan kontennya masuk ke /src/
+    + Karena nextjs bego

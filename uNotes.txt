@@ -1,0 +1,71 @@
+CATATAN :
+1. JS adalah logika dan bahasa vanilla JS
+    + Di JS tidak bisa support <div><div/> tanpa adanya sesuatu a
+2. JSX adalah logika dan bahasa yang mencampurkan html dan JS 
+    + Contoh :
+        - di JSX kita bisa buat <div><div/> dan diterima/disupport lebih baik
+
+KESIMPULAN : 
+-di TSX tidak bisa memakai logika JS, karena TS dan JS itu berbeda, walaupun TS adalah lanjutan dari JS. begitu juga sebaliknya
+-Tetapi di JS dapat memakai TS, dan di TS dapat memakai JS.
+
+3. Contoh penggunaan {children}
+
+import React from 'react';
+
+// Komponen MainLayout dengan children
+const MainLayout = ({ children }) => {
+  return (
+    <div className="main-layout">
+      {children}
+    </div>
+  );
+};
+
+// Contoh penggunaan komponen MainLayout
+const App = () => {
+  return (
+    <MainLayout>
+      <header>
+        <h1>Welcome to my website</h1>
+      </header>
+      <nav>
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Contact</li>
+        </ul>
+      </nav>
+      <main>
+        <p>This is the main content of the website.</p>
+      </main>
+      <footer>
+        <p>&copy; 2024 My Website</p>
+      </footer>
+    </MainLayout>
+  );
+};
+
+export default App;
+
+Di sini, MainLayout adalah komponen yang menerima properti children. Ketika App menggunakan MainLayout, seluruh isi di dalam tag <MainLayout> akan dianggap sebagai children dari MainLayout. Dalam contoh ini, kita menyertakan elemen <header>, <nav>, <main>, dan <footer> sebagai children dari MainLayout.
+
+4. Penamaan di dalam file di dalam folder itu penting : 
+
+    - tetap bisa masuk kode nya tanpa dipasangin <RootLayOut> karena dia berapa di folder app. Yang di mana otomatis /
+    dan penamaan tampilan yang diambil adalah page.jsx
+
+    Misal : 
+    /app
+    -pages.jsx
+    -page.jsx
+
+    maka yang diambil adalah yang page.jsx
+    nama file apapun selain page, maka tidak akan diambil menjadi tampilan nextjs
+
+    - Contoh seperti di /(main)
+    layout.jsx itu adalah penamaan untuk pembungkus si pages" dari folder" tersebut, seperti folder /create.
+      = /create/page.jsx nya itu nanti dijadikan children si layout.jsx (liat aja kode si laoyut.jsx)
+      = kenapa bisa gitu? memang itu lah cara kerja routingnya next
+
+        = Jadi si create itu tetap bisa diarahin ke /create, tetapi dibungkus oleh layout.jsx
