@@ -4,3 +4,30 @@ Setiap sudah create-next-app Pastikan cek file" berikut :
 2. tailwind.config.js = 
     + pastikan kontennya masuk ke /src/
     + Karena nextjs bego
+
+
+===============================================================================================================
+LEAD BY : Irfan Mustafa 
+
+1. npm i universal-cookies, tanstack/react-query@4.35.7
+2. Buat folder : 
+    + /src/utils = untuk make axios nya.
+    + /src/services = fungsi untuk hit method api nya   
+
+3. buat .env = untuk ngeletakkin url utama si BE nya
+
+4. Buat file : 
+    + /utils/
+        -- api-endpoints.js = letakkin endpointnya ( slash berikutanya dari http://loclahost:5000/ ____ )
+        -- cookies.js = untuk ngeletakkin auth ke cookies browser
+        -- http.js = untuk setup awal untuk manggil api / untuk make axios nya.
+
+    +/services/auth :  (ga harus auth)  ==services untuk fetching API 
+        --login.js = untuk fetching API 
+
+5. Manggil di halamannya 
+
+6.
+
+===============================================================================================================
+

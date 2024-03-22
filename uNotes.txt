@@ -69,3 +69,75 @@ Di sini, MainLayout adalah komponen yang menerima properti children. Ketika App 
       = kenapa bisa gitu? memang itu lah cara kerja routingnya next
 
         = Jadi si create itu tetap bisa diarahin ke /create, tetapi dibungkus oleh layout.jsx
+
+===============================================================================================================
+LEAD BY : Irfan Mustafa 
+
+1. Cek d F12. :
+  + Network > Header = untuk ngecek Status nya apa 
+  + Application = untuk ngeliat cookiesnya udah kesimpen atau engga
+
+===============================================================================================================
+
+
+
+
+
+  //---------
+
+  const [Username, setUsername] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const handleInput = (e) => {
+    if (e) {
+      if (e.target.id === "username") {
+        setUsername(e.target.value);
+      }
+      if (e.target.id === "password") {
+        setPassword(e.target.value);
+      }
+    }
+  };
+  //untuk nangkap apa yang diimput di input formm. disimpen di useState nya, bukan di set mek!
+
+  const router = useRouter();
+
+  const {
+    mutate: dataLogin, //mutate : data yang dimintain tuh apa?
+    status,
+    isSuccess,
+    isError,
+    error,
+  } = useLoginUser(); //ctrl+klik kiri aja
+  //bawaan library trans-stack
+  //const ini dibuat untuk ke useLoginUser, keperluan custom hook useLoginUser()
+
+  const loginUser = () => {
+    // if (!Username || !Password) {
+    //   alert("Mohon Lengkapi Data !!");
+    //   return;
+    // }
+    dataLogin({
+      username: Username,
+      password: Password, 
+    });
+  };//untuk function onClicknya
+    //username : Username (req.body dari postman || dari useState)
+
+  useEffect(() => {
+    if (isError) {
+      console.log(error);
+    }
+    if (isSuccess) {
+      console.log("Login Berhasil");
+      router.push("/dashboard");
+    }
+  }, [status]);
+  //handling kalau udah succes atau error pencet button
+  // status adalah bawaan trans-stack
+
+
+  console.log(Username, Password);
+
+
+  //---------

@@ -6,7 +6,7 @@ import RegistrationForm from "../../component/registForm/page";
 const RegisterPage = () => {
   return (
     <div>
-      <LampSection comp={RegistrationForm} />
+      <LampSection comp={RegistrationForm} translate="-translate-y-20"/>
       {/* <RegistrationForm/> */}
     </div>
   );

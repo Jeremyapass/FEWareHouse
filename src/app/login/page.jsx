@@ -6,7 +6,7 @@ import LoginForm from "../../component/loginForm/page";
 const LoginPage = () => {
   return (
     <div>
-      <LampSection comp={LoginForm} />
+      <LampSection comp={LoginForm} translate="-translate-y-36" />
     </div>
   );
 };

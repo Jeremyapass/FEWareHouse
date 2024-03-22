@@ -5,7 +5,7 @@ import { cn } from "./cn";
 
 export function LampSection(props) {
   return (
-    <LampContainer>
+    <LampContainer translate={props.translate}>
       <motion.h1
         initial={{ opacity: 0.5, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -28,9 +28,11 @@ export function LampSection(props) {
 export const LampContainer = ({
   children,
   className,
+  translate = ""
 }: {
   children: React.ReactNode;
   className?: string;
+  translate: string
 }) => {
   return (
     <div
@@ -99,7 +101,7 @@ export const LampContainer = ({
         <div className="absolute  inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950 "></div>
       </div>
 
-      <div className=" relative z-50 flex -translate-y-36 flex-col items-center px-5">
+      <div className={`relative ${translate} z-50 flex flex-col items-center px-5`} >
         {children}
       </div>
     </div>
