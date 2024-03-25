@@ -50,7 +50,7 @@ export function Card3() {
   return (
     <CardContainer className="inter-va w-80 h-24">
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-gradient-to-r from-birumuda to-birumudabgt border-none w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-        {data && data.length > 0 && (
+        {data && data.length > 2 && (
           <CardItem
             key={data[data.length - 3].id}
             translateZ="50"
@@ -59,7 +59,7 @@ export function Card3() {
             {data[data.length - 3].name}
           </CardItem>
         )}
-        {data && data.length > 0 && (
+        {data && data.length > 2 && (
           <CardItem
             key={data[data.length - 3].id}
             translateZ="50"
@@ -70,7 +70,7 @@ export function Card3() {
         )}
 
         <div className="flex justify-between items-center mt-20">
-          {data && data.length > 0 && (
+          {data && data.length > 2 && (
             <CardItem
               translateZ={20}
               as="button"

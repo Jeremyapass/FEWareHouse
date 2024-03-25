@@ -4,9 +4,14 @@ import { TiCloudStorage } from "react-icons/ti";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import classnames from "classnames";
+import  Cookies  from "universal-cookie";
+import { useRouter } from "next/navigation";
+
+const cookies = new Cookies();
 
 const SideBar = () => {
   const currentPath = usePathname();
+  const router = useRouter();
   // console.log(currentPath)
 
   const links = [
@@ -14,6 +19,15 @@ const SideBar = () => {
     { label: "Items", href: "/items" },
     { label: "History", href: "/history" },
   ];
+
+  const handleLogout = () => {
+    // Hapus token dari cookies
+    cookies.remove('UserToken', { path: '/' });
+    
+    // Arahkan pengguna ke halaman beranda
+    router.push('/');
+  };
+
   return (
     <div className=" bg-biru rounded flex flex-col items-center">
       <Link href="/dashboard">
@@ -45,6 +59,14 @@ const SideBar = () => {
           </Link>
         ))}
       </ul>
+      <div className="flex-1 flex ">
+        <button
+        onClick={handleLogout}
+          className={` bg-birumudabgt w-32 h-10 justify-center text-sm px-6 flex items-center self-end my-2 rounded-md mb-10 hover:scale-105 transition-all text-white`}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };

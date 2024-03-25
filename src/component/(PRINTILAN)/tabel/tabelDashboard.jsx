@@ -39,11 +39,11 @@ export default function Tabel(props) {
 
       // Make GET request with token
       const response = await axios.get(
-        "http://localhost:5000/items/get",
+        "http://localhost:5000/items/getDescendant",
         config
       );
       // console.log(response.data);
-      setData(response.data.item); // Mengambil data dari "item" dalam respons
+      setData(response.data.items); // Mengambil data dari "item" dalam respons
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Error fetching data. Please try again later.");
@@ -80,7 +80,9 @@ export default function Tabel(props) {
               <TableCell>{item.short_description}</TableCell>
               <TableCell>{item.quantity}</TableCell>
               <TableCell>
-                {new Date(item.updatedAt).toLocaleDateString()}
+                {`${new Date(item.updatedAt).toLocaleDateString()},  ${new Date(
+                  item.updatedAt
+                ).toLocaleTimeString()}`}
               </TableCell>
             </TableRow>
           )
@@ -89,3 +91,12 @@ export default function Tabel(props) {
     </Table>
   );
 }
+
+/*
+ <Textarea
+                  minRows={1}
+                  maxRows={2}
+                  variant="underlined"
+                  value={item.quantity}
+                />
+*/

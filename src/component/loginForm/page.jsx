@@ -22,7 +22,7 @@ const LoginForm = () => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
+    })); // pake () setelah => adalah untuk singkatin return. Jadi udah otomatis ke return
     // Reset error and empty field state when input changes
     setError(null);
     setEmptyFields((prevEmptyFields) => ({
@@ -32,15 +32,15 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //untuk validasi dulu sebelum line di bawah ini dijalankan
     // Check if any fields are empty
     if (!formData.username || !formData.password) {
       setEmptyFields({
-        username: !formData.username,
+        username: !formData.username, //reutrnnya true, kalau si formData.username berupa undefined, string kosong, atau null
         password: !formData.password,
       });
       setError("Username and password must be filled");
-      return;
+      return; //untuk menghentikan fungsi handleSubmit
     }
     try {
       const response = await axios.post("http://localhost:5000/login", {

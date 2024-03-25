@@ -70,7 +70,73 @@ Di sini, MainLayout adalah komponen yang menerima properti children. Ketika App 
 
         = Jadi si create itu tetap bisa diarahin ke /create, tetapi dibungkus oleh layout.jsx
 
+5. const handleHandleAn = (e) => {
+    // Mengakses properti target dari objek event
+    console.log('Element yang memicu event:', e.target);   'uhuy'
+    // Lakukan sesuatu dengan elemen yang memicu event
+  };
+
+  return (
+    <div>
+      {/* Memasang event handler pada elemen JSX */}
+      <button onClick={handleHandleAn}>Klik Saya</button>
+    </div>
+  );
+
+Outpunya dari si 'uhuy' : Element yang memicu event: <button>Klik Saya</button> (outputnya adalah HTML karna pake si target | target itu syntax DOM)
+
+6.  Objek event merepresentasikan kejadian atau interaksi tertentu yang terjadi pada elemen HTML.
+  Analogi : 
+    - Jika ada yang meniup lilin, maka object event / e ini adalah catatan yang mencatat apa saja yang terjadi saaat meniup lilin. 
+    seperti :
+      + siapa yang meniup lilin (e.target), 
+      + apa jenis lilin yang ditiup (e.type),
+      + yang jenis e lainnya aku ndak tau dan ga peduli karna belum kepake
+
+7. Jenis-jenis e (object event) : 
+- e.target: Mengacu pada elemen HTML yang memicu event.
+- e.type: Menyatakan jenis event yang terjadi, seperti 'click', 'change', dll.
+- e.preventDefault(): Metode untuk mencegah perilaku default dari event tersebut, seperti mengirimkan formulir pada event 'submit'.
+- e.stopPropagation(): Metode untuk menghentikan penyebaran event ke elemen lain dalam hierarki DOM.
+- e.key: Menyatakan tombol keyboard yang ditekan pada event 'keypress' atau 'keydown'.
+- e.clientX dan e.clientY: Koordinat x dan y dari pointer mouse pada event 'mousemove' atau 'click'.\
+
+8.  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+
+    Penjelasan : 
+      + apapun yang informasi yang berada saat handleChange terjadi akan dicatat di e.
+      + aku mau si jenis catatan e nya adalah jenis catatan e.target yang di mana e.targetnya adalah atribut dari tag html berupa name dan value. jadinya e.target.name & e.target.value (menggunakan destrcutive pantek)
+      + ini adalah isi dari 
+        const [formData, setFormData] = useState({
+          username: "",
+          password: "",
+        });
+      + aku mau mengubah data yang ada di useState dengan si prevData 
+        ++ dalam useState, kita menggunakan setFormData(uhuy) uhuy untuk mengubah data yang sebelumnya pada useState tersebut. si uhuy menyalin data yang sebelumnya ada pada useState FormData, lalu akan digantikan dengan data baru yaitu uhuy yang baru. si uhuy di sini analogi dari prevData
+      + Karena si useState FormData ini berbentuk object, dan memiliki 2 properti. Maka, itu harus terdefinisi yang mau diubah itu properti yang mana?
+      + Lalu kita tidak bisa mengambil properti itu secara langsung jika kita tidak kasih tau komputer
+      + Makanya kita kasih seperator pantek untuk mendapatkan semua properti dalam object tersebut. ...prevData
+      + lalu kita pakai si computed prop yang ini : [name]. itu gunanya mengambil nilai dari si e.target.name. Karna tapi sbenarnya bentuk dari destructive pantek itu adalah : 
+        const name = e.target.name
+      + karna kita set di <button name = username/>. Maka si [name] itu sekarang adaalah username
+      + si value itu sekarang jadi e.target.value
+      + Ketika onChange (saat ada perubahan) kita mau set si username : {formData.username}
+      + [name] merupakan e.target.name, ini adalah tumbal agar kita tau, dari properti useState FormData mana yang mau diubah. 
+      + Dan [e.target.name] itu akan sama dengan e.target.value
+
+    - Alur : 
+      + ketik A
+      + masuk ke onChange
+      + A akan masuk ke e.target.value, yang di mana e.target.value adalah/ditempati oleh variabel {formData.username}, dengan kata lain sekarang const formData.username = "A"
+      + barulah si atribut value yang beradaa di <input value = {formData.username} itu terupdate.
 ===============================================================================================================
+
 LEAD BY : Irfan Mustafa 
 
 1. Cek d F12. :
