@@ -59,7 +59,7 @@ export function Card1() {
               ? "Loading..."
               : data.length > 0
               ? data[data.length - 1].name
-              : "data kosong"}
+              : "You should create Item"}
           </CardItem>
           <CardItem
             translateZ="50"
@@ -69,7 +69,7 @@ export function Card1() {
               ? "Loading..."
               : data.length > 0
               ? data[data.length - 1].short_description
-              : "data kosong"}
+              : "Short Description for your item"}
             {/* if(fetching){
                   "Loading.."
                 }else{
@@ -89,7 +89,7 @@ export function Card1() {
                 ? "Loading..."
                 : data.length > 0
                 ? new Date(data[data.length - 1].createdAt).toLocaleString()
-                : "data kosong"}
+                : "This should be the created time"}
             </CardItem>
           </div>
         </>
