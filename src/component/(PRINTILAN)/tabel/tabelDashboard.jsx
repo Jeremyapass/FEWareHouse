@@ -29,25 +29,24 @@ export default function Tabel(props) {
 
   const fetchData = async (token) => {
     // Menerima token sebagai parameter
-    try {
-      // Set token in headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+    // Set token in headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Make GET request with token
-      const response = await axios.get(
-        "http://localhost:5000/items/getDescendant",
-        config
-      );
+    // Make GET request with token
+    axios
+      .get("http://localhost:5000/items/getDescendant", config)
+      .then((response) => {
+        setData(response.data.items); // Mengambil data dari "item" dalam respons
+      })
       // console.log(response.data);
-      setData(response.data.items); // Mengambil data dari "item" dalam respons
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      });
   };
 
   if (error) {

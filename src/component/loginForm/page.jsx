@@ -31,30 +31,33 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); //untuk validasi dulu sebelum line di bawah ini dijalankan
+  const handleSubmit = (e) => {
+    e.preventDefault(); // untuk validasi dulu sebelum line di bawah ini dijalankan
     // Check if any fields are empty
     if (!formData.username || !formData.password) {
       setEmptyFields({
-        username: !formData.username, //reutrnnya true, kalau si formData.username berupa undefined, string kosong, atau null
+        username: !formData.username, // return true jika formData.username berupa undefined, string kosong, atau null
         password: !formData.password,
       });
       setError("Username and password must be filled");
-      return; //untuk menghentikan fungsi handleSubmit
+      return; // untuk menghentikan fungsi handleSubmit
     }
-    try {
-      const response = await axios.post("http://localhost:5000/login", {
+
+    axios
+      .post("http://localhost:5000/login", {
         username: formData.username,
         password: formData.password,
+      })
+      .then((response) => {
+        // Save token to local storage
+        cookies.set("UserToken", response.data.accesTokeN);
+        // Redirect to dashboard after successful login
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        console.error("Login failed:", error);
+        setError("Invalid username or password");
       });
-      // Save token to local storage
-      cookies.set("UserToken", response.data.accesTokeN);
-      // Redirect to dashboard after successful login
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Login failed:", error);
-      setError("Invalid username or password");
-    }
   };
 
   return (

@@ -9,38 +9,36 @@ const cookies = new Cookies();
 export function Card3() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    // Check if token exists in cookies
-    const userToken = cookies.get("UserToken"); // Mendapatkan token dari cookies
+    const userToken = cookies.get("UserToken");
     if (userToken) {
-      fetchData(userToken); // Memanggil fetchData dengan token
+      fetchData(userToken);
     } else {
       setError("Token not found in cookies.");
     }
   }, []);
 
-  const fetchData = async (token) => {
-    // Menerima token sebagai parameter
-    try {
-      // Set token in headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const fetchData = (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Make GET request with token
-      const response = await axios.get(
-        "http://localhost:5000/items/get",
-        config
-      );
-      // console.log(response.data);
-      setData(response.data.item);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+    axios
+      .get("http://localhost:5000/items/get", config)
+      .then((response) => {
+        setData(response.data.item);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      })
+      .finally(() => {
+        setFetching(false);
+      });
   };
 
   if (error) {
@@ -50,36 +48,49 @@ export function Card3() {
   return (
     <CardContainer className="inter-va w-80 h-24">
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-gradient-to-r from-birumuda to-birumudabgt border-none w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-        {data && data.length > 2 && (
+        <>
           <CardItem
-            key={data[data.length - 3].id}
             translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
+            className="text-lg w-full font-bold :text-white"
           >
-            {data[data.length - 3].name}
+            {fetching
+              ? "Loading..."
+              : data.length > 2
+              ? data[data.length - 3].name
+              : "You should create Item"}
           </CardItem>
-        )}
-        {data && data.length > 2 && (
           <CardItem
-            key={data[data.length - 3].id}
             translateZ="50"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            className="text-neutral-500  text-sm max-w-sm mt-2 dark:text-neutral-300"
           >
-            {data[data.length - 3].short_description}
+            {fetching
+              ? "Loading..."
+              : data.length > 2
+              ? data[data.length - 3].short_description
+              : "Short Description for your item"}
+            {/* if(fetching){
+                  "Loading.."
+                }else{
+                  if(data.length > 0){
+                    data[data.length - 1].short_description
+                  }else{
+                    "data kosong"
+                  } 
+                } */}
           </CardItem>
-        )}
-
-        <div className="flex justify-between items-center mt-20">
-          {data && data.length > 2 && (
+          <div className="flex justify-between items-center mt-20">
             <CardItem
               translateZ={20}
-              as="button"
               className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
             >
-              {new Date(data[data.length - 3].createdAt).toLocaleString()}
+              {fetching
+                ? "Loading..."
+                : data.length > 2
+                ? new Date(data[data.length - 3].createdAt).toLocaleString()
+                : "This should be the created time"}
             </CardItem>
-          )}
-        </div>
+          </div>
+        </>
       </CardBody>
     </CardContainer>
   );

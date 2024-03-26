@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import axios from "axios";
-import Link from "next/link"; 
+import Link from "next/link";
 
 const RegistrationForm = () => {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -34,7 +34,7 @@ const RegistrationForm = () => {
     // Reset error and empty field state when input changes
     setError(null);
     setEmptyFields((prevEmptyFields) => ({
-      ...prevEmptyFields, 
+      ...prevEmptyFields,
       [name]: false,
     }));
   };
@@ -43,7 +43,12 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Check if any fields are empty
-    if (!formData.name || !formData.username || !formData.email || !formData.password) {
+    if (
+      !formData.name ||
+      !formData.username ||
+      !formData.email ||
+      !formData.password
+    ) {
       setEmptyFields({
         name: !formData.name,
         username: !formData.username,
@@ -53,27 +58,33 @@ const RegistrationForm = () => {
       setError("All fields must be filled");
       return;
     }
-    try {
-      // Kirim data pendaftaran ke server menggunakan axios
-      const response = await axios.post("http://localhost:5000/register", {
+
+    // Kirim data pendaftaran ke server menggunakan axios
+    await axios
+      .post("http://localhost:5000/register", {
         name: formData.name,
         username: formData.username,
         email: formData.email,
         password: formData.password,
-      });
+      })
+      .then(
+        () => {
+          setFormData({
+            name: "",
+            username: "",
+            email: "",
+            password: "",
+          });
+          router.push("/login");
+          alert("Account Registered")
+        } // Redirect pengguna ke halaman login setelah pendaftaran berhasil
+      )
       // console.log("User registered:", response.data);
       // Reset the form after submission
-      setFormData({
-        name: "",
-        username: "",
-        email: "",
-        password: "",
+      .catch((error) => {
+        console.error("Registration failed:", error);
+        setError("Registration failed. Please try again.");
       });
-      router.push('/login'); // Redirect pengguna ke halaman login setelah pendaftaran berhasil
-    } catch (error) {
-      console.error("Registration failed:", error);
-      setError("Registration failed. Please try again.");
-    }
   };
 
   // Render form pendaftaran

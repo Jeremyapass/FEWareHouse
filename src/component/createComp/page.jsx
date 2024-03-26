@@ -23,42 +23,58 @@ const CreateComponent = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Membatasi panjang input name dan short_description menjadi maksimum 34 karakter
+    if (
+      (name === "name" && value.length > 24) ||
+      (name === "short_description" && value.length > 38)
+    ) {
+      const displayName =
+        name.replace(/_/g, " ").charAt(0).toUpperCase() +
+        name.replace(/_/g, " ").slice(1);
+      setError(`${displayName} is reached the maximum character`);
+      return; // Jika panjang melebihi 34 karakter, langsung keluar dari fungsi
+    } else {
+      setError(null); // Reset pesan kesalahan jika input sesuai batas
+    }
+
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
-    setError(null);
     setEmptyFields((prevEmptyFields) => ({
       ...prevEmptyFields,
       [name]: false,
     }));
   };
 
-  const handleSubmit = async (e, token) => {
+  const handleSubmit = (e, token) => {
     e.preventDefault();
-    try {
-      if (
-        !form.name ||
-        !form.description ||
-        !form.short_description ||
-        !/^\d+$/.test(form.quantity) // Validasi quantity hanya berisi angka
-      ) {
-        setEmptyFields({
-          name: !form.name,
-          description: !form.description,
-          short_description: !form.short_description,
-          quantity: !/^\d+$/.test(form.quantity), // Set emptyFields.quantity sesuai validasi
-        });
-        setError("Please fill all fields correctly.");
-        return;
-      }
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.post(
+    if (
+      !form.name ||
+      !form.description ||
+      !form.short_description ||
+      !/^\d+$/.test(form.quantity) // Validasi quantity hanya berisi angka
+    ) {
+      setEmptyFields({
+        name: !form.name,
+        description: !form.description,
+        short_description: !form.short_description,
+        quantity: !/^\d+$/.test(form.quantity), // Set emptyFields.quantity sesuai validasi
+      });
+      setError("Please fill all fields correctly.");
+      return;
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .post(
         "http://localhost:5000/items/create",
         {
           name: form.name,
@@ -67,37 +83,38 @@ const CreateComponent = () => {
           quantity: parseInt(form.quantity),
         },
         config
-      );
+      )
+      .then((response) => {
+        // Menampilkan alert "Item Created!"
+        alert("Item Created!");
 
-      // Menampilkan alert "Item Created!"
-      alert("Item Created!");
+        // Mengosongkan input
+        setForm({
+          name: "",
+          description: "",
+          short_description: "",
+          quantity: "",
+        });
 
-      // Mengosongkan input
-      setForm({
-        name: "",
-        description: "",
-        short_description: "",
-        quantity: "",
+        // Jika request berhasil, lakukan tindakan selanjutnya
+        // Misalnya, mengatur state, menampilkan pesan sukses, atau meredirect pengguna
+      })
+      .catch((error) => {
+        console.error("Create failed:", error);
+        if (error.response && error.response.status === 401) {
+          setError("Unauthorized: Please log in again.");
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setError(error.response.data.message);
+        } else {
+          setError(
+            "Make sure your input(s) are correct. Please try again later."
+          );
+        }
       });
-
-      // Jika request berhasil, lakukan tindakan selanjutnya
-      // Misalnya, mengatur state, menampilkan pesan sukses, atau meredirect pengguna
-    } catch (error) {
-      console.error("Create failed:", error);
-      if (error.response && error.response.status === 401) {
-        setError("Unauthorized: Please log in again.");
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else {
-        setError(
-          "Make sure your input(s) are correct. Please try again later."
-        );
-      }
-    }
   };
 
   return (

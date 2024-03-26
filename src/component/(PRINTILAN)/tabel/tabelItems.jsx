@@ -31,60 +31,54 @@ export default function Tabel(props) {
     }
   }, []);
 
-  const fetchData = async (token) => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const fetchData = (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      const response = await axios.get(
-        "http://localhost:5000/items/get",
-        config
-      );
-      setData(response.data.item);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+    axios
+      .get("http://localhost:5000/items/get", config)
+      .then((response) => {
+        setData(response.data.item);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      });
   };
 
-  const detailsID = async (ItemsId, token) => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const detailsID = (ItemsId, token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Lakukan axios.get di sini
-      const response = await axios.get(
-        `http://localhost:5000/items/getId/${ItemsId}`,
-        config
-      );
-
-      // Lakukan sesuatu dengan respons jika perlu
-      setDataID(response.data.item);
-      setUpdatan(response.data.item);
-      // console.log(updatan);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+    axios
+      .get(`http://localhost:5000/items/getId/${ItemsId}`, config)
+      .then((response) => {
+        setDataID(response.data.item);
+        setUpdatan(response.data.item);
+        // console.log(updatan);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      });
   };
 
-  const updateItems = async (ItemsId, token) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const updateItems = (ItemsId, token) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Lakukan axios.get di sini
-      const response = await axios.patch(
+    axios
+      .patch(
         `http://localhost:5000/items/update/${ItemsId}`,
         {
           data: {
@@ -95,29 +89,28 @@ export default function Tabel(props) {
           },
         },
         config
-      );
-
-      // Lakukan sesuatu dengan respons jika perlu
-      // console.log(response.data);
-      setUpdatan(response.data);
-      alert("Sudah Teredit!");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+      )
+      .then((response) => {
+        setUpdatan(response.data);
+        alert("Item Updated!");
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      })
+      .finally(()=>fetchData(token));
   };
 
-  const softDeleteItems = async (ItemsId, token) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const softDeleteItems = (ItemsId, token) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Lakukan axios.get di sini
-      const response = await axios.patch(
+    axios
+      .patch(
         `http://localhost:5000/items/softDelete/${ItemsId}`,
         {
           data: {
@@ -128,16 +121,17 @@ export default function Tabel(props) {
           },
         },
         config
-      );
-
-      // Lakukan sesuatu dengan respons jika perlu
-      // console.log(response.data);
-      setUpdatan(response.data);
-      alert("Sudah Terupdate!");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+      )
+      .then((response) => {
+        setUpdatan(response.data);
+        fetchData(token);
+        alert("Item Deleted!");
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      })
+      .finally(()=>fetchData(token));
   };
 
   if (error) {
@@ -159,7 +153,7 @@ export default function Tabel(props) {
 
   const validateName = (input) => {
     // Jika nilai input bukan string atau panjangnya lebih dari 100 karakter, kembalikan pesan error
-    if (typeof input !== "string" || input.length > 39) {
+    if (typeof input !== "string" || input.length > 24) {
       return "Name is too long, make it less!";
     }
     // Jika valid, kembalikan null (tidak ada error)
@@ -168,7 +162,7 @@ export default function Tabel(props) {
 
   const validateShortDesc = (input) => {
     // Jika nilai input bukan string atau panjangnya lebih dari 100 karakter, kembalikan pesan error
-    if (typeof input !== "string" || input.length > 39) {
+    if (typeof input !== "string" || input.length > 38) {
       return "Short Description is too long, make it less!";
     }
     // Jika valid, kembalikan null (tidak ada error)
@@ -329,8 +323,7 @@ export default function Tabel(props) {
               onClick={async () => {
                 if (!updatan.error && !updatan.errors && !updatan.errorss) {
                   try {
-                    await softDeleteItems(updatan.id, cookies.get("UserToken"));
-                    await fetchData(cookies.get("UserToken"));
+                    softDeleteItems(updatan.id, cookies.get("UserToken"));
                     document.getElementById("my_modal_2").close();
                   } catch (error) {
                     console.error("Error updating items:", error);
@@ -345,14 +338,8 @@ export default function Tabel(props) {
               className="btn flex-1 bg-ungu text-white"
               onClick={async () => {
                 if (!updatan.error && !updatan.errors && !updatan.errorss) {
-                  try {
-                    await updateItems(updatan.id, cookies.get("UserToken"));
-                    await fetchData(cookies.get("UserToken"));
-                    document.getElementById("my_modal_2").close();
-                  } catch (error) {
-                    console.error("Error updating items:", error);
-                    // Handle error jika diperlukan
-                  }
+                  updateItems(updatan.id, cookies.get("UserToken"));
+                  document.getElementById("my_modal_2").close();
                 }
               }}
             >

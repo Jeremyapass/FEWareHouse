@@ -29,73 +29,66 @@ export default function Tabel(props) {
     }
   }, []);
 
-  const fetchData = async (token) => {
-    // Menerima token sebagai parameter
-    try {
-      // Set token in headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const fetchData = (token) => {
+    // Set token in headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Make GET request with token
-      const response = await axios.get(
-        "http://localhost:5000/history/get",
-        config
-      );
-      // console.log(response.data);
-      setData(response.data); // Mengambil data dari "item" dalam respons
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+    axios
+      .get("http://localhost:5000/history/get", config)
+      .then((response) => {
+        // console.log(response.data);
+        setData(response.data); // Mengambil data dari "item" dalam respons
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      });
   };
 
-  const fetchDataID = async (ItemsId, token) => {
-    // Menerima token sebagai parameter
-    try {
-      // Set token in headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const fetchDataID = (ItemsId, token) => {
+    // Set token in headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Make GET request with token
-      const response = await axios.get(
-        `http://localhost:5000/history/getId/${ItemsId}`,
-        config
-      );
-      // console.log(response.data);
-      setDataID(response.data); // Mengambil data dari "item" dalam respons
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+    axios
+      .get(`http://localhost:5000/history/getId/${ItemsId}`, config)
+      .then((response) => {
+        // console.log(response.data);
+        setDataID(response.data); // Mengambil data dari "item" dalam respons
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      });
   };
 
-  const handleHardDelete = async (ItemsId, token) => {
-    try {
-      // Set token in headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const handleHardDelete = (ItemsId, token) => {
+    // Set token in headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      // Make GET request with token
-      const response = await axios.delete(
-        `http://localhost:5000/history/hardDelete/${ItemsId}`,
-        config
-      );
-      // console.log(response.data);
-      setDataID(response.data); // Mengambil data dari "item" dalam respons
-      alert("Data Sudah Terhapus di Database");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Error fetching data. Please try again later.");
-    }
+    axios
+      .delete(`http://localhost:5000/history/hardDelete/${ItemsId}`, config)
+      .then((response) => {
+        // console.log(response.data);
+        setDataID(response.data); // Mengambil data dari "item" dalam respons
+        alert("Data Sudah Terhapus di Database");
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+      })
+      .finally(() => fetchData(token));
   };
 
   if (error) {
@@ -156,8 +149,7 @@ export default function Tabel(props) {
           <button
             className="btn bg-red-600 text-white"
             onClick={async () => {
-              await handleHardDelete(dataID.id, cookies.get("UserToken"));
-              await fetchData(cookies.get("UserToken"));
+              handleHardDelete(dataID.id, cookies.get("UserToken"));
               document.getElementById("my_modal_1").close();
             }}
           >
