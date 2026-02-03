@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Popoverr from "../(PRINTILAN)/popover/page";
 import Buttonn from "../../component/(PRINTILAN)/button/page";
@@ -11,7 +13,9 @@ const Hero = () => {
         </div>
         <p className="font1 text-center text-7xl">
           Save and Track Your Items Only in{" "}
-          <a className=" bg-clip-text text-transparent bg-gradient-to-r from-birumuda via-birumudabgt to-ungu">WareHouse</a>
+          <span className=" bg-clip-text text-transparent bg-gradient-to-r from-birumuda via-birumudabgt to-ungu">
+            WareHouse
+          </span>
         </p>
         <p className="text-center font1 mt-12">ALL SAVE AND SIMPLE</p>
         <div className=" mt-10 hover:scale-105 transition-all ease-out ">

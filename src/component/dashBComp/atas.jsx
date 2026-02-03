@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { Card1 } from "../(PRINTILAN)/3DCard/card1";
 import { Card2 } from "../(PRINTILAN)/3DCard/card2";

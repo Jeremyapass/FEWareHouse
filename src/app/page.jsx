@@ -1,14 +1,9 @@
-import Navigasi from "../component/(PRINTILAN)/navigasi/page";
-import Hero from "../component/hero/page";
-import RootLayout from "./layout";
+import HomeClient from "./home-client";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
-  return (
-    <div>
-      <Navigasi />
-      <Hero />
-    </div>
-  );
+  return <HomeClient />;
 }
 
 /* tetap bisa masuk kode nya tanpa dipasangin <RootLayOut> karena dia berapa di folder app. Yang di mana otomatis /

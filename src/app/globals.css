@@ -1,7 +1,7 @@
+@import "daisyui/dist/full.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'daisyui/dist/full.css'; 
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -17,9 +17,6 @@
   }
 }
 
-body {
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -27,10 +24,10 @@ body {
 }
 
 @font-face {
-  font-family: font1 ;
+  font-family: font1;
   src: url(../fonts/Mont-HeavyDEMO.otf);
 }
 
-.font1{
+.font1 {
   font-family: font1;
 }

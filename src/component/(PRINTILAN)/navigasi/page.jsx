@@ -32,6 +32,8 @@ const Navigasi = () => {
           >
             Login
           </Button>
+        </NavbarItem>
+        <NavbarItem>
           <Button
             className="hover:scale-105 transition-all ease-out hover:bg-blue-600 hover:text-white"
             as={Link}
